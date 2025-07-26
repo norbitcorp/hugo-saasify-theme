@@ -4,7 +4,7 @@
 {{ $badge := .Get "badge" }}
 {{ $badgeColor := .Get "badgeColor" | default "#5573df" }}
 {{ $image := .Get "image" }}
-{{ $buttonText := .Get "buttonText" | default "Learn More" }}
+{{ $buttonText := .Get "buttonText"  }}
 {{ $buttonLink := .Get "buttonLink" | default "#" }}
 {{ $imagePosition := .Get "imagePosition" | default "right" }}
 
@@ -40,7 +40,9 @@
             </li>
             {{ end }}
         </ul>
+        {{ if $buttonText }}
         <a href="{{ $buttonLink }}" class="btn-primary inline-block">{{ $buttonText }}</a>
+        {{ end }}
     </div>
 
     {{ if ne $imagePosition "left" }}
