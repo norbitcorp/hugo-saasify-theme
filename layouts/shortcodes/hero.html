@@ -17,15 +17,15 @@
     </div>
     {{ end }}
     <div class="container pt-16 pb-20 md:pt-24 md:pb-28">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-8">
+        <div class="grid lg:grid-cols-1 gap-12 items-center">
+            <div class="space-y-8 text-center">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                     {{ $headline | safeHTML }}
                 </h1>
                 <p class="text-xl text-gray-600">
                     {{ $sub_headline | safeHTML }}
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     {{ if and $primary_button_text $primary_button_url }}
                     <a href="{{ $primary_button_url }}" class="btn-primary text-center">
                         {{ $primary_button_text }}

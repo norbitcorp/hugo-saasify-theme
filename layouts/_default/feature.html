@@ -61,11 +61,19 @@
                 <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">See it in action</h2>
                 <p class="mt-6 text-lg leading-8 text-gray-600">{{ .Params.demo.description }}</p>
             </div>
+            <div class="mt-8 flex justify-center">
+                <a href="/get-started" class="btn-primary text-center">
+                        Book a Demo
+                    </a>
+            </div>
+        {{ if .Params.demo.image }}
             <div class="mt-16 flex justify-center">
                 <div class="relative rounded-xl bg-white p-8 shadow-2xl ring-1 ring-gray-200">
                     <img src="{{ .Params.demo.image }}" alt="Demo" class="rounded-lg">
                 </div>
             </div>
+        </div>
+        {{ end }}
         </div>
         {{ end }}
     </div>

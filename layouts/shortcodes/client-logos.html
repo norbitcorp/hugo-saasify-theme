@@ -5,11 +5,11 @@
             <div class="logo-scroll">
                 <div class="logos-slide{{ if ne (.Get "animate" | default "true") "false" }} animate{{ end }}">
                     {{ range .Page.Params.client_logos }}
-                    <img src="{{ .logo | relURL }}" class="h-20" alt="{{ .name }}" />
+                    <img src="{{ .logo | relURL }}" class="h-20 w-20" alt="{{ .name }}" />
                     {{ end }}
                     {{ if ne (.Get "animate" | default "true") "false" }}
                         {{ range .Page.Params.client_logos }}
-                        <img src="{{ .logo | relURL }}" class="h-20" alt="{{ .name }}" />
+                        <img src="{{ .logo | relURL }}" class="h-20 w-20" alt="{{ .name }}" />
                         {{ end }}
                     {{ end }}
                 </div>
