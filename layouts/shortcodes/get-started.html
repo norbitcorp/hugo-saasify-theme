@@ -12,7 +12,7 @@
   <input type="hidden" name="_cc" value="viswa@norbit.co.in">
 
   <!-- Optional: redirect after submit -->
-  <input type="hidden" name="_next" value="https://draft.norbit.co.in/thank-you.html">
+  <input type="hidden" name="_next" value="{{ (getenv "HUGO_REDIRECT_URL") | default "localhost:1313" }}/thank-you.html">
   <!-- <input type="hidden" name="_next" value="http://localhost:1313/thank-you.html"> -->
 
   <h2 class="text-2xl font-semibold text-gray-800">Contact Us</h2>
