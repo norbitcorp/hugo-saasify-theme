@@ -1,10 +1,10 @@
 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
     {{ with .Params.featured_image }}
-        <a href="{{ $.RelPermalink }}" class="block aspect-w-16 aspect-h-9 overflow-hidden">
+        <a href="{{ $.RelPermalink }}" class="block relative w-full overflow-hidden" style="padding-top: 56.25%;">
             <img 
                 src="{{ . }}" 
                 alt="{{ $.Title }}" 
-                class="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300"
+                class="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
                 loading="lazy"
             >
         </a>
