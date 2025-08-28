@@ -50,6 +50,7 @@ paginatePath = "page"
   [params.social]
     linkedin = "https://linkedin.com/in/chaomingli"
     twitter = "https://twitter.com/lichaoming"
+    bluesky = "https://bsky.app/profile/bsky.app"
     youtube = "https://youtube.com/@chaomingli"
     facebook = "https://facebook.com/lichaoming"
     instagram = "https://instagram.com/lichaoming"

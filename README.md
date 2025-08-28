@@ -171,6 +171,7 @@ enableGitInfo = true      # Enable Git info for lastmod
   [params.social]
     linkedin = "https://linkedin.com/in/yourusername"
     twitter = "https://twitter.com/yourusername"
+    bluesky = "https://bsky.app/profile/yourblueskyhandle"
     github = "https://github.com/yourusername"
 
 # Navigation Menu
