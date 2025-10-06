@@ -326,6 +326,7 @@ Configure social media profiles for footer and sharing.
   facebook = "https://facebook.com/yourpage"
   instagram = "https://instagram.com/yourhandle"
   github = "https://github.com/yourorg"
+  telegram = "https://t.me/yourchannel"
   discord = "https://discord.gg/yourinvite"
   slack = "https://yourteam.slack.com"
   medium = "https://medium.com/@yourhandle"
