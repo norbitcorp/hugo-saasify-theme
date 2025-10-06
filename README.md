@@ -21,6 +21,23 @@ A modern and elegant Hugo theme specifically designed for SaaS websites. Built w
 - 📦 No jQuery, minimal JavaScript
 - 📊 Google Analytics support
 - 📈 Google Tag Manager support
+- 🎪 21 pre-built shortcodes for rapid page building
+- 📚 Documentation layout with automatic sidebar navigation
+
+## Documentation
+
+**📖 [Complete Documentation →](docs/README.md)**
+
+Comprehensive guides covering everything you need:
+
+- **[Installation Guide](docs/INSTALLATION.md)** - Get started quickly
+- **[Configuration Guide](docs/CONFIGURATION.md)** - All configuration options
+- **[Layouts Guide](docs/LAYOUTS.md)** - Understanding layouts and templates
+- **[Shortcodes Reference](docs/SHORTCODES.md)** - All 21 shortcodes documented
+- **[Styling Guide](docs/STYLING.md)** - Customize colors, fonts, and styles
+- **[Content Creation Guide](docs/CONTENT-CREATION.md)** - Create pages and blog posts
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Deploy to various platforms
+- **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)** - Common issues and solutions
 
 ## Requirements
 
@@ -279,6 +296,25 @@ content/
 
 This theme is released under the [MIT license](https://github.com/chaoming/hugo-saasify-theme/blob/main/LICENSE).
 
+## Quick Links
+
+- 📖 [Documentation](docs/README.md)
+- 🎨 [Demo Site](https://saasify-demo.chaoming.li)
+- 🐛 [Report Issues](https://github.com/chaoming/hugo-saasify-theme/issues)
+- 💬 [Discussions](https://github.com/chaoming/hugo-saasify-theme/discussions)
+
 ## Support
 
-If you have any questions or need help, please [open an issue](https://github.com/chaoming/hugo-saasify-theme/issues).
+Need help? Check the documentation first:
+
+1. **[Complete Documentation](docs/README.md)** - Start here
+2. **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)** - Common issues
+3. **[GitHub Issues](https://github.com/chaoming/hugo-saasify-theme/issues)** - Report bugs or request features
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Author
+
+Created by [Chaoming Li](https://chaoming.li)
