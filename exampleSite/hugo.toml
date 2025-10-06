@@ -55,6 +55,12 @@ paginatePath = "page"
     facebook = "https://facebook.com/lichaoming"
     instagram = "https://instagram.com/lichaoming"
     github = "https://github.com/chaoming"
+    telegram = "https://t.me/yourchannel"
+    discord = "https://discord.gg/yourinvite"
+    slack = "https://yourteam.slack.com"
+    medium = "https://medium.com/@yourhandle"
+    dribbble = "https://dribbble.com/yourprofile"
+    behance = "https://behance.net/yourprofile"
   
   # Footer Configuration
   [params.footer]
