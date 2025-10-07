@@ -72,6 +72,9 @@
         <meta {{ range $key, $value := . }} {{ $key }}="{{ $value }}"{{ end }}>
         {{ end }}
     {{ end }}
+
+    <!-- Custom Head Content -->
+    {{ partial "custom-head" . }}
 </head>
 <body class="min-h-screen flex flex-col">
     <!-- Google Tag Manager (noscript) -->

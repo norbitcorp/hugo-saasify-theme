@@ -387,6 +387,57 @@ You can use both GA4 and GTM simultaneously:
 
 **Best Practice**: If using GTM, configure GA4 through GTM rather than directly for better control.
 
+### Custom Head Content
+
+For tracking scripts and tools not covered by Google Analytics or Google Tag Manager, you can add custom code to the `<head>` section.
+
+**How to use**:
+
+1. Create a file in your site: `layouts/partials/custom-head.html`
+2. Add any custom HTML, scripts, or meta tags to this file
+
+**Example** - Adding Hotjar tracking:
+
+```html
+<!-- layouts/partials/custom-head.html -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:YOUR_HOTJAR_ID,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+```
+
+**Example** - Adding site verification meta tags:
+
+```html
+<!-- layouts/partials/custom-head.html -->
+<meta name="google-site-verification" content="your-verification-code" />
+<meta name="pinterest-site-verification" content="your-verification-code" />
+```
+
+**Example** - Adding custom fonts:
+
+```html
+<!-- layouts/partials/custom-head.html -->
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=figtree:400,600" rel="stylesheet" />
+```
+
+**Use Cases**:
+- Third-party tracking scripts (Hotjar, Mixpanel, Heap, etc.)
+- Site verification meta tags
+- Custom fonts or stylesheets
+- A/B testing scripts
+- Chat widget scripts
+- Any other code that needs to be in the `<head>` section
+
+**Note**: The `custom-head.html` partial is loaded after all other head elements, giving you full control while maintaining theme compatibility.
+
 ## Menu Configuration
 
 Configure navigation menus for header and footer.

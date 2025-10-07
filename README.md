@@ -21,6 +21,7 @@ A modern and elegant Hugo theme specifically designed for SaaS websites. Built w
 - 📦 No jQuery, minimal JavaScript
 - 📊 Google Analytics support
 - 📈 Google Tag Manager support
+- 🔧 Custom head content support for additional tracking scripts
 - 🎪 21 pre-built shortcodes for rapid page building
 - 📚 Documentation layout with automatic sidebar navigation
 
@@ -225,6 +226,7 @@ This configuration includes:
   - Social media links
   - Google Analytics configuration (only enabled in production)
   - Google Tag Manager configuration (only enabled in production)
+  - Custom head content for additional tracking scripts and meta tags
 - **Navigation Menu**: Main menu structure with dropdown support
 
 ## Development
@@ -281,6 +283,37 @@ fontFamily: {
 ### Layout Components
 
 Common components like buttons, cards, and sections can be customized in `assets/css/main.css`.
+
+### Custom Head Content
+
+Add custom tracking scripts or meta tags by creating `layouts/partials/custom-head.html` in your site:
+
+```html
+<!-- layouts/partials/custom-head.html -->
+<!-- Example: Adding Hotjar tracking -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:YOUR_HOTJAR_ID,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+<!-- Example: Site verification -->
+<meta name="google-site-verification" content="your-code" />
+```
+
+This is perfect for:
+- Third-party analytics (Hotjar, Mixpanel, Heap, etc.)
+- Site verification meta tags
+- Custom fonts or stylesheets
+- A/B testing scripts
+- Chat widgets
+
+See the [Configuration Guide](docs/CONFIGURATION.md#custom-head-content) for more details.
 
 ## Content Structure
 
