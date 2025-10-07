@@ -552,6 +552,15 @@ Newsletter subscription form.
 - Head and body scripts
 - DataLayer support
 
+**Custom Head**: `layouts/partials/custom-head.html`
+- User-overridable partial for custom code
+- Add any tracking scripts not covered by GA/GTM
+- Add verification meta tags
+- Include custom fonts or stylesheets
+- Loaded at the end of `<head>` section
+
+To use, create `layouts/partials/custom-head.html` in your site with your custom content.
+
 ## Custom Layouts
 
 ### Creating Custom Layouts
