@@ -99,7 +99,7 @@ git submodule add https://github.com/chaoming/hugo-saasify-theme.git themes/hugo
 
 ### npm Dependencies Failed
 
-**Problem**: npm install fails in theme directory
+**Problem**: npm install fails
 
 ```
 npm ERR! code ENOENT
@@ -113,19 +113,25 @@ node --version
 npm --version
 ```
 
-2. **Clear npm cache**:
+2. **Ensure config files are copied to site root**:
+```bash
+cp themes/hugo-saasify-theme/package.json .
+cp themes/hugo-saasify-theme/postcss.config.js .
+cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
+```
+
+3. **Clear npm cache**:
 ```bash
 npm cache clean --force
 ```
 
-3. **Delete and reinstall**:
+4. **Delete and reinstall**:
 ```bash
-cd themes/hugo-saasify-theme
 rm -rf node_modules package-lock.json
 npm install
 ```
 
-4. **Use different npm registry** (if blocked):
+5. **Use different npm registry** (if blocked):
 ```bash
 npm config set registry https://registry.npmjs.org/
 npm install
@@ -236,7 +242,9 @@ ls themes/hugo-saasify-theme/layouts/shortcodes/pricing-table-1.html
 # GitHub Actions example
 - name: Install dependencies
   run: |
-    cd themes/hugo-saasify-theme
+    cp themes/hugo-saasify-theme/package.json .
+    cp themes/hugo-saasify-theme/postcss.config.js .
+    cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
     npm install
 ```
 
@@ -308,7 +316,6 @@ hugo
 
 4. **Check Tailwind version compatibility**:
 ```bash
-cd themes/hugo-saasify-theme
 npm list tailwindcss
 ```
 
@@ -512,7 +519,7 @@ Vercel:
 
 Add to build command:
 ```bash
-cd themes/hugo-saasify-theme && npm install && cd ../.. && hugo --minify
+cp themes/hugo-saasify-theme/package.json . && cp themes/hugo-saasify-theme/postcss.config.js . && cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js && npm install && hugo --minify
 ```
 
 3. **Check environment variables** are set in platform UI

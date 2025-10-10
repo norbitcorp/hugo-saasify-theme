@@ -19,14 +19,17 @@ The Hugo Saasify Theme is built with Tailwind CSS v3, providing a utility-first 
 
 ### How It Works
 
-1. **Main CSS File**: `assets/css/main.css`
-2. **Tailwind Config**: `tailwind.config.js`
-3. **Hugo Processing**: Automatic PostCSS compilation
-4. **Build Stats**: Required for PurgeCSS optimization
+1. **Main CSS File**: `themes/hugo-saasify-theme/assets/css/main.css`
+2. **Tailwind Config**: `tailwind.config.js` (copied to site root during installation)
+3. **PostCSS Config**: `postcss.config.js` (copied to site root during installation)
+4. **Hugo Processing**: Automatic PostCSS compilation
+5. **Build Stats**: Required for PurgeCSS optimization
 
 ### Configuration File
 
-**Location**: `themes/hugo-saasify-theme/tailwind.config.js`
+**Location**: `tailwind.config.js` (in your site root)
+
+During installation, you copied this file from `themes/hugo-saasify-theme/tailwind.config.copy.js` to your site root as `tailwind.config.js`.
 
 ```javascript
 module.exports = {

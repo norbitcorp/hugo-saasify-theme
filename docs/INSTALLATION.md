@@ -88,37 +88,55 @@ git submodule add https://github.com/chaoming/hugo-saasify-theme.git themes/hugo
 git submodule update --init --recursive
 ```
 
-#### Step 4: Copy Example Configuration
+#### Step 4: Example Site (Optional)
+
+The theme comes with a fully functional example site that demonstrates its features and capabilities. You can use this as a reference when building your own site.
+
+##### Using the Example Site
+
+The example site provides a great starting point to understand how to:
+
+- Structure your content
+- Use different page layouts
+- Configure navigation menus
+- Set up site parameters
+- Implement common SaaS website features
+
+1. Copy the example site content:
 
 ```bash
-# Copy example site configuration
-cp themes/hugo-saasify-theme/exampleSite/hugo.toml hugo.toml
-
-# Copy example content (optional)
-cp -r themes/hugo-saasify-theme/exampleSite/content/* content/
-
-# Copy static assets (optional)
-cp -r themes/hugo-saasify-theme/exampleSite/static/* static/
+cp -r themes/hugo-saasify-theme/exampleSite/* .
 ```
+
+The example site includes:
+
+- Complete content structure with sample pages
+- Blog posts with various layouts
+- Feature pages
+- Career/Jobs section
+- Pricing page
+- Company information page
+- Properly configured hugo.toml
 
 #### Step 5: Install Dependencies
 
 ```bash
-# Navigate to theme directory
-cd themes/hugo-saasify-theme
-
-# Install npm dependencies
-npm install
-
-# Return to project root
-cd ../..
+# Copy package.json and other config files to your site root
+cp themes/hugo-saasify-theme/package.json .
+cp themes/hugo-saasify-theme/postcss.config.js .
+cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
 ```
 
-#### Step 6: Start Hugo Server
+```bash
+# Install dependencies
+npm install
+```
+
+#### Step 6: Start Development Server
 
 ```bash
-# Start development server
-hugo server -D
+# Start development server (builds TailwindCSS and runs Hugo server)
+npm run start
 
 # Your site will be available at http://localhost:1313
 ```
@@ -144,29 +162,46 @@ Add or update the following in your `hugo.toml`:
 ```toml
 theme = "hugo-saasify-theme"
 
+# Required Features
+pygmentsCodeFences = true
+pygmentsUseClasses = true
+enableEmoji = true
+enableGitInfo = true
+
+# Required Module Configuration
 [module]
   [module.hugoVersion]
     extended = true
     min = "0.80.0"
 
+# Required Build Configuration
 [build]
   writeStats = true
 
-[build.buildStats]
-  enable = true
+# Required Markup Configuration
+[markup]
+  [markup.highlight]
+    noClasses = false
+    lineNos = true
+    codeFences = true
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
 ```
 
 #### Step 3: Install Theme Dependencies
 
 ```bash
-# Navigate to theme directory
-cd themes/hugo-saasify-theme
+# Copy package.json and other config files to your site root
+cp themes/hugo-saasify-theme/package.json .
+cp themes/hugo-saasify-theme/postcss.config.js .
+cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
 
 # Install dependencies
 npm install
-
-# Return to site root
-cd ../..
 ```
 
 #### Step 4: Configure Theme Settings
@@ -184,7 +219,7 @@ Merge the configuration settings into your existing `hugo.toml`. See [CONFIGURAT
 
 ```bash
 # Start development server
-hugo server -D
+npm run start
 ```
 
 ### Method 3: Manual Installation
@@ -206,14 +241,13 @@ Alternatively, download the ZIP file from GitHub and extract it manually to `the
 #### Step 2: Install Dependencies
 
 ```bash
-# Navigate to theme directory
-cd themes/hugo-saasify-theme
+# Copy package.json and other config files to your site root
+cp themes/hugo-saasify-theme/package.json .
+cp themes/hugo-saasify-theme/postcss.config.js .
+cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
 
-# Install npm packages
+# Install dependencies
 npm install
-
-# Return to site root
-cd ../..
 ```
 
 #### Step 3: Configure Hugo
@@ -233,7 +267,7 @@ Add all required configuration settings from the example site.
 hugo config
 
 # Start development server
-hugo server -D
+npm run start
 ```
 
 ## Initial Configuration
@@ -245,41 +279,59 @@ After installing the theme, configure the essential settings.
 Edit your `hugo.toml` file:
 
 ```toml
-baseURL = "https://your-domain.com/"
+# Basic Configuration
+baseURL = "/"
 languageCode = "en-us"
-title = "Your SaaS Name"
+title = "Your Site Title"
 theme = "hugo-saasify-theme"
 
-# Enable syntax highlighting
-pygmentsCodeFences = true
+# Required Features
+pygmentsCodeFences = true  # Enable syntax highlighting
 pygmentsUseClasses = true
+enableEmoji = true        # Enable emoji support
+enableGitInfo = true      # Enable Git info for lastmod
 
-# Enable emoji support
-enableEmoji = true
-
-# Enable Git info for lastmod dates
-enableGitInfo = true
-
-[params]
-  description = "Your SaaS description"
-  author = "Your Name"
-  logo = "/images/logo.svg"
-
+# Required Module Configuration
 [module]
   [module.hugoVersion]
     extended = true
     min = "0.80.0"
+
+# Required Build Configuration
+[build]
+  writeStats = true      # Required for TailwindCSS
+
+# Required Markup Configuration
+[markup]
+  [markup.highlight]
+    noClasses = false
+    lineNos = true
+    codeFences = true
+  [markup.goldmark.renderer]
+    unsafe = true       # Allow HTML in markdown
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
+
+# Theme Parameters
+[params]
+  description = "Your site description"
+  author = "Your Name"
+  logo = "/images/logo.svg"
 ```
 
 ### Tailwind CSS Setup
 
 The theme uses Tailwind CSS for styling. The build process is integrated into Hugo.
 
-1. Ensure the theme's `package.json` dependencies are installed
-2. Tailwind configuration is in `themes/hugo-saasify-theme/tailwind.config.js`
-3. Hugo automatically processes Tailwind during build
+During installation, you should have copied the Tailwind configuration file:
 
-No additional setup is required for Tailwind.
+- `tailwind.config.js` - Copied from `themes/hugo-saasify-theme/tailwind.config.copy.js` to your site root
+- `postcss.config.js` - PostCSS configuration in your site root
+- Dependencies installed via `npm install`
+
+The `npm run start` command automatically watches and compiles Tailwind CSS during development.
 
 ### Menu Configuration
 
@@ -338,8 +390,8 @@ ls -la themes/hugo-saasify-theme/
 ### Test Development Server
 
 ```bash
-# Start server with verbose output
-hugo server -D --verbose
+# Start server
+npm run start
 
 # Check for errors in terminal
 # Visit http://localhost:1313 in browser
@@ -361,6 +413,36 @@ ls public/
 # - images/
 ```
 
+## Development Workflow
+
+### Starting the Development Server
+
+To start the development server with live reload and TailwindCSS compilation:
+
+```bash
+npm run start
+```
+
+This will:
+
+- Watch for changes in your TailwindCSS styles
+- Run the Hugo development server
+- Automatically rebuild when changes are detected
+- Serve your site at <http://localhost:1313>
+
+### Building for Production
+
+To build your site for production:
+
+```bash
+npm run build
+```
+
+This will:
+
+- Build and minify your TailwindCSS styles
+- Generate minified Hugo site in the `public` directory
+
 ## Next Steps
 
 After successful installation:
@@ -380,10 +462,11 @@ After successful installation:
 # Update to latest version
 git submodule update --remote themes/hugo-saasify-theme
 
-# If there are npm dependency updates
-cd themes/hugo-saasify-theme
+# If there are npm dependency updates, copy the updated files
+cp themes/hugo-saasify-theme/package.json .
+cp themes/hugo-saasify-theme/postcss.config.js .
+cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
 npm install
-cd ../..
 
 # Commit the update
 git add themes/hugo-saasify-theme
@@ -403,10 +486,11 @@ rm -rf themes/hugo-saasify-theme
 mv hugo-saasify-theme-main themes/hugo-saasify-theme
 rm theme.zip
 
-# Install updated dependencies
-cd themes/hugo-saasify-theme
+# Copy updated config files and install dependencies
+cp themes/hugo-saasify-theme/package.json .
+cp themes/hugo-saasify-theme/postcss.config.js .
+cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
 npm install
-cd ../..
 ```
 
 ### Update Best Practices
@@ -469,16 +553,17 @@ hugo version
 [build]
   writeStats = true
 
-# Install theme dependencies
-cd themes/hugo-saasify-theme
+# Ensure theme dependencies are installed in site root
+cp themes/hugo-saasify-theme/package.json .
+cp themes/hugo-saasify-theme/postcss.config.js .
+cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
 npm install
-cd ../..
 
 # Clear Hugo cache
 hugo --gc
 
-# Rebuild
-hugo server -D
+# Rebuild and start server
+npm run start
 ```
 
 ### Submodule Empty
@@ -500,18 +585,16 @@ git submodule add https://github.com/chaoming/hugo-saasify-theme.git themes/hugo
 
 ### npm Dependencies Error
 
-**Problem**: npm install fails in theme directory
+**Problem**: npm install fails
 
 **Solution**:
 ```bash
 # Clear npm cache
 npm cache clean --force
 
-# Delete node_modules and reinstall
-cd themes/hugo-saasify-theme
+# Delete node_modules and reinstall in site root
 rm -rf node_modules package-lock.json
 npm install
-cd ../..
 ```
 
 ### Port Already in Use
@@ -520,12 +603,13 @@ cd ../..
 
 **Solution**:
 ```bash
-# Use different port
-hugo server -D --port 1314
-
+# Use different port (modify package.json start script to add --port flag)
 # Or find and kill process using port 1313
 lsof -ti:1313 | xargs kill -9  # macOS/Linux
 # For Windows, use: netstat -ano | findstr :1313
+
+# Then restart
+npm run start
 ```
 
 For more troubleshooting help, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md) or visit the [GitHub Issues](https://github.com/chaoming/hugo-saasify-theme/issues) page.

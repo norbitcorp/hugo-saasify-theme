@@ -294,7 +294,9 @@ jobs:
 
       - name: Install Node.js dependencies
         run: |
-          cd themes/hugo-saasify-theme
+          cp themes/hugo-saasify-theme/package.json .
+          cp themes/hugo-saasify-theme/postcss.config.js .
+          cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
           npm install
 
       - name: Build with Hugo
@@ -682,9 +684,10 @@ variables:
 
 pages:
   script:
-    - cd themes/hugo-saasify-theme
+    - cp themes/hugo-saasify-theme/package.json .
+    - cp themes/hugo-saasify-theme/postcss.config.js .
+    - cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
     - npm install
-    - cd ../..
     - hugo --minify
   artifacts:
     paths:
@@ -709,7 +712,9 @@ jobs:
       - run:
           name: Install theme dependencies
           command: |
-            cd themes/hugo-saasify-theme
+            cp themes/hugo-saasify-theme/package.json .
+            cp themes/hugo-saasify-theme/postcss.config.js .
+            cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
             npm install
       - run:
           name: Build site
