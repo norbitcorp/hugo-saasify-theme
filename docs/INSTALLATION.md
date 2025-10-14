@@ -132,7 +132,16 @@ cp themes/hugo-saasify-theme/tailwind.config.copy.js ./tailwind.config.js
 npm install
 ```
 
-#### Step 6: Start Development Server
+#### Step 6: Set the theme in hugo.toml
+
+Open your `hugo.toml` and check that the theme is correctly set:
+
+```toml
+# Theme Configuration
+theme = "hugo-saasify-theme"
+```
+
+#### Step 7: Start Development Server
 
 ```bash
 # Start development server (builds TailwindCSS and runs Hugo server)
