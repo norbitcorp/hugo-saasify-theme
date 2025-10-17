@@ -2,8 +2,8 @@
 <section class="section{{ if not $background_color }} bg-gray-50{{ end }}" {{ if $background_color }}style="background-color:{{ $background_color }};"{{ end }}>
     <div class="container">
         <div class="text-center max-w-3xl mx-auto mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">{{ .Get "title" | default "Loved by Teams Worldwide" }}</h2>
-            <p class="text-xl text-gray-600">{{ .Get "description" | default "See what our customers have to say about their experience with our platform." }}</p>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">{{ .Get "title" | default (i18n "lovedByTeams") }}</h2>
+            <p class="text-xl text-gray-600">{{ .Get "description" | default (i18n "testimonialsDescription") }}</p>
         </div>
 
         <div class="testimonials-container overflow-hidden">

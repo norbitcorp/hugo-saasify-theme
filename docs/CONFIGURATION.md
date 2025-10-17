@@ -669,27 +669,381 @@ Add custom JavaScript files:
 
 Place files in `static/js/` directory.
 
-### Language Configuration
+### Multilingual Configuration
 
-For multilingual sites:
+The Hugo Saasify Theme has full multilingual (i18n) support with automatic language switcher, translated UI strings, and language-specific content.
+
+#### Basic Multilingual Setup
 
 ```toml
+# Set default language
 defaultContentLanguage = "en"
+
+# Whether to include default language in URL path
+# false: English at / (example.com/)
+# true: English at /en/ (example.com/en/)
 defaultContentLanguageInSubdir = false
 
 [languages]
   [languages.en]
+    languageCode = "en-us"
     languageName = "English"
+    title = "Your SaaS Name"
     weight = 1
-    [languages.en.params]
-      description = "English description"
+    contentDir = "content"
 
-  [languages.es]
-    languageName = "Español"
+  [languages.zh-cn]
+    languageCode = "zh-cn"
+    languageName = "简体中文"
+    title = "Your SaaS Name"
     weight = 2
-    [languages.es.params]
-      description = "Descripción en español"
+    contentDir = "content/zh-cn"
 ```
+
+#### Language-Specific Parameters
+
+Each language can have its own configuration:
+
+```toml
+[languages.en]
+  languageCode = "en-us"
+  languageName = "English"
+  title = "Saasify"
+  weight = 1
+  contentDir = "content"
+
+  [languages.en.params]
+    description = "Modern SaaS platform"
+
+    # Language-specific CTA
+    [languages.en.params.cta]
+      enable = true
+      title = "Ready to Build Your SaaS Website?"
+      description = "Join companies using our theme"
+      gradient_from = "#2563eb"
+      gradient_to = "#7c3aed"
+      gradient_angle = 30
+      [languages.en.params.cta.primary_button]
+        text = "Get Started Free"
+        url = "/get-started"
+      [languages.en.params.cta.secondary_button]
+        text = "Book Demo"
+        url = "/demo"
+
+    # Language-specific header buttons
+    [languages.en.params.header.buttons.signIn]
+      text = "Sign in"
+      url = "/signin"
+    [languages.en.params.header.buttons.getStarted]
+      text = "Get Started"
+      url = "/get-started"
+
+[languages.zh-cn]
+  languageCode = "zh-cn"
+  languageName = "简体中文"
+  title = "Saasify"
+  weight = 2
+  contentDir = "content/zh-cn"
+
+  [languages.zh-cn.params]
+    description = "现代化SaaS平台"
+
+    [languages.zh-cn.params.cta]
+      enable = true
+      title = "准备好构建您的 SaaS 网站了吗？"
+      description = "加入已经使用我们主题创建精美、高性能网站的公司。"
+      gradient_from = "#2563eb"
+      gradient_to = "#7c3aed"
+      gradient_angle = 30
+      [languages.zh-cn.params.cta.primary_button]
+        text = "免费开始"
+        url = "/zh-cn/get-started"
+      [languages.zh-cn.params.cta.secondary_button]
+        text = "预约演示"
+        url = "/zh-cn/demo"
+
+    [languages.zh-cn.params.header.buttons.signIn]
+      text = "登录"
+      url = "/zh-cn/signin"
+    [languages.zh-cn.params.header.buttons.getStarted]
+      text = "开始使用"
+      url = "/zh-cn/get-started"
+```
+
+#### Language-Specific Menus
+
+Each language needs its own menu configuration:
+
+```toml
+# English menu
+[[languages.en.menu.main]]
+  name = "Features"
+  weight = 1
+  [languages.en.menu.main.params]
+    has_submenu = true
+    submenu = [
+      { name = "Performance", url = "/features/performance/" },
+      { name = "Design System", url = "/features/design-system/" }
+    ]
+
+[[languages.en.menu.main]]
+  name = "Pricing"
+  url = "/pricing"
+  weight = 2
+
+# Chinese menu
+[[languages.zh-cn.menu.main]]
+  name = "功能特性"
+  weight = 1
+  [languages.zh-cn.menu.main.params]
+    has_submenu = true
+    submenu = [
+      { name = "性能", url = "/zh-cn/features/performance/" },
+      { name = "设计系统", url = "/zh-cn/features/design-system/" }
+    ]
+
+[[languages.zh-cn.menu.main]]
+  name = "定价"
+  url = "/zh-cn/pricing"
+  weight = 2
+```
+
+#### i18n Translation Files
+
+Create translation files for UI strings in your site's `i18n/` directory:
+
+**i18n/en.toml**
+```toml
+[readMore]
+other = "Read More"
+
+[readTime]
+other = "min read"
+
+[previous]
+other = "Previous"
+
+[next]
+other = "Next"
+
+# Add more translations as needed
+```
+
+**i18n/zh-cn.toml**
+```toml
+[readMore]
+other = "阅读更多"
+
+[readTime]
+other = "分钟阅读"
+
+[previous]
+other = "上一页"
+
+[next]
+other = "下一页"
+
+# Add more translations as needed
+```
+
+The theme includes default translation files at `themes/hugo-saasify-theme/i18n/en.toml` with all required UI strings. You can copy these to your site's `i18n/` directory and customize them.
+
+#### Content Organization
+
+Organize your content in language-specific directories:
+
+```
+content/
+├── _index.md              # English homepage
+├── blog/                  # English blog posts
+│   └── my-post.md
+├── features/              # English features
+│   └── performance.md
+└── zh-cn/                 # Chinese content
+    ├── _index.md          # Chinese homepage
+    ├── blog/              # Chinese blog posts
+    │   └── my-post.md
+    └── features/          # Chinese features
+        └── performance.md
+```
+
+#### Translating Content
+
+Create translated versions by duplicating content and translating:
+
+**content/blog/my-post.md** (English)
+```yaml
+---
+title: "Getting Started with Hugo"
+date: 2024-01-15
+categories: ["Tutorial"]
+tags: ["hugo", "web development"]
+---
+Content in English...
+```
+
+**content/zh-cn/blog/my-post.md** (Chinese)
+```yaml
+---
+title: "Hugo入门指南"
+date: 2024-01-15
+categories: ["教程"]
+tags: ["hugo", "网站开发"]
+---
+中文内容...
+```
+
+#### Language Switcher
+
+The theme automatically includes a language switcher in the header when multiple languages are configured. It:
+- Shows the current language name
+- Displays a dropdown with available languages
+- Maintains the same page across languages when available
+- Matches the styling of other dropdown menus
+
+#### URL Structure
+
+By default:
+- Default language: `example.com/page/`
+- Other languages: `example.com/zh-cn/page/`
+
+To put all languages in subdirectories:
+```toml
+defaultContentLanguageInSubdir = true
+```
+
+Then:
+- Default language: `example.com/en/page/`
+- Other languages: `example.com/zh-cn/page/`
+
+#### Multilingual Best Practices
+
+1. **Consistent Structure**: Mirror your content directory structure across languages
+2. **Translation Keys**: Use descriptive i18n keys like `readMore` instead of `rm`
+3. **Date Formats**: Configure language-specific date formats in params
+4. **URLs**: Include language code in URLs for non-default languages
+5. **Menus**: Configure separate menus for each language with translated labels
+6. **Testing**: Test language switching between all available pages
+7. **Fallbacks**: Default language serves as fallback for missing translations
+
+#### Supported Languages
+
+The theme can support any language. Common language codes:
+- `en` - English
+- `es` - Spanish
+- `fr` - French
+- `de` - German
+- `zh-cn` - Simplified Chinese
+- `zh-tw` - Traditional Chinese
+- `ja` - Japanese
+- `ko` - Korean
+- `pt` - Portuguese
+- `it` - Italian
+- `ru` - Russian
+- `ar` - Arabic
+
+#### Available i18n Translation Keys
+
+The theme includes comprehensive i18n support with the following translation keys:
+
+**Blog & Content:**
+- `readMore` - "Read More" link text
+- `readTime` - Reading time suffix (e.g., "min read")
+- `published` - "Published" label
+- `updated` - "Updated" label
+- `by` - Author prefix (e.g., "by John")
+- `categories` - "Categories" heading
+- `tags` - "Tags" heading
+- `allPosts` - "All Posts" link
+
+**Blog Post:**
+- `tableOfContents` - "Table of Contents" heading
+- `minRead` - Reading time text (e.g., "min read")
+- `previousPost` - "Previous Post" navigation
+- `nextPost` - "Next Post" navigation
+- `dateFormat` - Date format string (e.g., "January 2, 2006" or "2006年1月2日")
+
+**Blog Sidebar:**
+- `recentArticles` - "Recent Articles" heading
+- `popularTags` - "Popular Tags" heading
+- `subscribeNewsletter` - Newsletter subscription heading
+- `subscribeDescription` - Newsletter subscription description
+- `emailPlaceholder` - Email input placeholder
+- `subscribe` - Subscribe button text
+- `subscribeDisclaimer` - Privacy disclaimer text
+
+**Navigation & Pages:**
+- `home` - "Home" link
+- `about` - "About" link
+- `contact` - "Contact" link
+- `documentation` - "Documentation" heading
+- `language` - "Language" label
+- `switchLanguage` - "Switch Language" label
+
+**Pagination:**
+- `previous` - "Previous" page link
+- `next` - "Next" page link
+
+**Features & Pricing:**
+- `seeItInAction` - "See it in action" heading
+- `popular` - "Popular" badge
+- `mostPopular` - "Most Popular" badge
+- `perMonth` - "/month" pricing suffix
+
+**Homepage:**
+- `trustedByCompanies` - Company logos section heading
+- `lovedByTeams` - Testimonials section heading
+- `testimonialsDescription` - Testimonials section description
+
+**404 & Search:**
+- `noResults` - "No results found" message
+- `backToHome` - "Back to Home" link
+- `404Title` - "Page Not Found" heading
+- `404Message` - 404 error message
+- `search` - "Search" label
+- `searchPlaceholder` - Search input placeholder
+
+**Footer:**
+- `copyright` - Copyright text (supports variables: `{{ .Year }}` and `{{ .SiteName }}`)
+- `builtWith` - "Built with" text
+- `and` - Conjunction "and"
+
+#### Important: Removing Hardcoded Sidebar Titles
+
+To ensure sidebar translations work correctly, do NOT set title/description/text parameters in the global `[params.blog.sidebar]` configuration. These should only be set in language-specific configurations if needed, otherwise they will override i18n defaults:
+
+```toml
+# ❌ DON'T: This overrides i18n translations
+[params.blog.sidebar.recent]
+  enable = true
+  title = "Recent Articles"  # This prevents translation
+
+# ✅ DO: Let i18n handle the translations
+[params.blog.sidebar.recent]
+  enable = true
+  count = 5  # Only set non-text configuration
+```
+
+If you need language-specific customization, set them in language parameters:
+
+```toml
+[languages.en.params.blog.sidebar.recent]
+  title = "Latest Posts"  # Custom English title
+
+[languages.zh-cn.params.blog.sidebar.recent]
+  title = "最新文章"  # Custom Chinese title
+```
+
+#### Complete Multilingual Example
+
+See the demo site's `hugo.toml` for a complete working example with English and Simplified Chinese.
+
+For the complete list of translation keys with default values, see:
+```bash
+cat themes/hugo-saasify-theme/i18n/en.toml
+```
+
+To add a new language, copy `themes/hugo-saasify-theme/docs/zh-cn.toml.example` to your site's `i18n/` directory with the appropriate language code (e.g., `i18n/fr.toml` for French)
 
 ### Output Formats
 

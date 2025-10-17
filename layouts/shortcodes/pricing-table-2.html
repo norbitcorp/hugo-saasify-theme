@@ -15,7 +15,7 @@
             <div class="relative flex flex-col p-6 {{ if $plan.featured }}bg-primary-600 text-white{{ else }}bg-white{{ end }} rounded-2xl shadow-xl transform hover:-translate-y-1 transition duration-300">
                 {{ if $plan.featured }}
                 <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span class="bg-yellow-400 text-gray-900 text-xs font-semibold px-4 py-1 rounded-full">Most Popular</span>
+                    <span class="bg-yellow-400 text-gray-900 text-xs font-semibold px-4 py-1 rounded-full">{{ i18n "mostPopular" }}</span>
                 </div>
                 {{ end }}
                 
@@ -28,7 +28,7 @@
                     <div class="flex items-baseline">
                         <span class="text-4xl font-extrabold {{ if not $plan.featured }}text-gray-900{{ end }}">$</span>
                         <span class="text-5xl font-extrabold tracking-tight {{ if not $plan.featured }}text-gray-900{{ end }}">{{ $plan.price }}</span>
-                        <span class="ml-1 {{ if not $plan.featured }}text-gray-500{{ end }}">/month</span>
+                        <span class="ml-1 {{ if not $plan.featured }}text-gray-500{{ end }}">{{ i18n "perMonth" }}</span>
                     </div>
                 </div>
                 

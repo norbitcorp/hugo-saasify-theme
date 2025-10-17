@@ -1,9 +1,9 @@
 <div class="docs-sidebar bg-white shadow-sm rounded-lg p-4 sticky top-20 mt-2">
-  <h3 class="text-lg font-semibold text-gray-900 mb-3 mt-1">Documentation</h3>
+  <h3 class="text-lg font-semibold text-gray-900 mb-3 mt-1">{{ i18n "documentation" }}</h3>
   <nav class="docs-nav">
     <ul class="space-y-1">
       {{ range (where .Site.Pages "Section" "docs").ByWeight }}
-        {{ if and .Title (ne .RelPermalink "/docs/") }}
+        {{ if and .Title (not .IsHome) (ne .Kind "section") }}
         <li>
           <a href="{{ .RelPermalink }}"
              class="block px-4 py-2 rounded-md transition-colors duration-200
