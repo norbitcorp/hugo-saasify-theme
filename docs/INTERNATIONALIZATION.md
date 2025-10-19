@@ -168,6 +168,125 @@ If you want to disable language preference persistence:
 
 The language switcher will still work; it just won't remember the user's choice.
 
+#### Automatic Language Detection with VisitorAPI
+
+**New Feature:** The theme supports automatic language detection using [VisitorAPI](https://visitorapi.com/) to detect the visitor's language based on their location.
+
+##### How It Works
+
+1. **Every Page Load (No Stored Preference)**: If the user has no stored language preference:
+   - The system calls VisitorAPI on every page load to detect the visitor's language
+   - If a matching language is available, the user is automatically redirected
+   - The detected language is stored as their preference for future visits
+2. **After Preference is Stored**: Once a language preference is saved (either from auto-detection or manual selection):
+   - Uses the stored preference (no API call)
+   - Fast redirect based on localStorage
+3. **Manual Selection**: User can always override by selecting a different language
+
+##### Setup Instructions
+
+1. **Sign up for VisitorAPI**:
+   - Visit [visitorapi.com](https://visitorapi.com/) and create a free account
+   - Create a new project to get your Project ID
+
+2. **Add the Project ID to your configuration**:
+
+```toml
+[params]
+  # VisitorAPI Project ID for automatic language detection
+  # Set this to enable auto-detection of visitor's language
+  # If not set, language detection will be disabled
+  visitorapi_pid = "YOUR_PROJECT_ID_HERE"
+```
+
+3. **That's it!** The feature is automatically enabled when the Project ID is configured.
+
+##### How Language Matching Works
+
+The system uses **dynamic language matching** based on the first two characters of language codes. This means it automatically works for any language you add to Hugo without requiring any code changes.
+
+**Matching Logic:**
+
+- VisitorAPI returns language codes like `"en"`, `"zh"`, `"de"`, `"fr"`, `"es"`, `"pt"`, etc.
+- The system extracts the first 2 characters from the VisitorAPI response
+- It compares these with the first 2 characters of your Hugo language codes
+- When they match, the user is redirected to that language
+
+**Examples:**
+
+- VisitorAPI returns `"en"` → Matches Hugo language `"en"` ✓
+- VisitorAPI returns `"zh"` or `"zho"` → Matches Hugo language `"zh-cn"` ✓ (both start with "zh")
+- VisitorAPI returns `"de"` or `"deu"` → Matches Hugo language `"de"` ✓
+- VisitorAPI returns `"pt"` or `"por"` → Matches Hugo language `"pt"` or `"pt-br"` ✓
+- VisitorAPI returns `"es"` or `"spa"` → Matches Hugo language `"es"` ✓
+- VisitorAPI returns `"fr"` or `"fra"` → Matches Hugo language `"fr"` or `"fr-ca"` ✓
+
+**Adding a New Language:**
+
+When you add a new language to your Hugo site, VisitorAPI auto-detection will automatically work for it:
+
+1. Add the language to your `hugo.toml`:
+
+   ```toml
+   [languages.ja]
+     languageCode = "ja-jp"
+     languageName = "日本語"
+     # ... rest of config
+   ```
+
+2. That's it! The system will automatically detect visitors from Japan and redirect them to `/ja/` because:
+   - VisitorAPI will return `"ja"` or `"jpn"` for Japanese visitors
+   - The first 2 characters (`"ja"`) match your Hugo language code `"ja"`
+   - No code changes needed
+
+**Technical Details:**
+
+The matching happens in `language-preference.js`:
+
+```javascript
+// Extract first 2 characters from VisitorAPI response (e.g., "zh" from "zh" or "zho")
+var langPrefix = visitorLang.substring(0, 2);
+
+// Get all available Hugo languages from the language switcher
+var languageLinks = document.querySelectorAll('.language-switch-link');
+
+// Compare first 2 characters with each Hugo language
+for (var j = 0; j < languageLinks.length; j++) {
+    var hugoLang = languageLinks[j].getAttribute('data-lang');
+    var hugoPrefix = hugoLang.substring(0, 2);
+
+    if (langPrefix === hugoPrefix) {
+        // Match found! Redirect to this language
+        detectedLang = hugoLang;
+        break;
+    }
+}
+```
+
+This approach ensures:
+- No hardcoded language mappings to maintain
+- Automatic support for any language you add
+- Works with both 2-character codes (`"en"`) and extended codes (`"zh-cn"`)
+- Handles VisitorAPI's various language code formats (ISO 639-1 and ISO 639-2)
+
+##### Privacy & Performance
+
+- **API Call**: Called on every page load when no language preference is stored
+- **Caching**: Once a language is detected and stored, no more API calls are made
+- **Efficient**: After first detection, uses localStorage for instant redirects
+- **Fallback**: Works gracefully if API is unavailable
+- **No Tracking**: VisitorAPI detects language, doesn't track user behavior
+- **User Control**: Users can clear localStorage to reset and re-detect
+
+##### Disabling Auto-Detection
+
+To disable automatic language detection while keeping manual preference persistence:
+
+1. Simply remove or comment out the `visitorapi_pid` parameter from your `hugo.toml`
+2. Or set it to an empty string: `visitorapi_pid = ""`
+
+The language preference system will continue to work; it just won't auto-detect on first visit.
+
 ### Basic Setup
 
 ```toml

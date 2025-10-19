@@ -98,6 +98,12 @@
 
     <!-- Language Preference Script -->
     {{ if hugo.IsMultilingual }}
+    {{ if .Site.Params.visitorapi_pid }}
+    <script>
+        // Inject VisitorAPI project ID from Hugo config
+        window.HUGO_VISITOR_API_PID = "{{ .Site.Params.visitorapi_pid }}";
+    </script>
+    {{ end }}
     <script src="{{ "js/language-preference.js" | relURL }}"></script>
     {{ end }}
 

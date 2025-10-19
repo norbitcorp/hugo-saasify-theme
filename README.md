@@ -1,6 +1,18 @@
 # Hugo Saasify Theme
 
-A modern and elegant Hugo theme specifically designed for SaaS websites. Built with TailwindCSS, this theme provides a clean, professional look while maintaining excellent performance and customization options.
+A modern and elegant Hugo theme specifically designed for building **SaaS marketing websites**. Built with TailwindCSS, this theme provides a clean, professional look while maintaining excellent performance and customization options.
+
+## Why Hugo Saasify Theme?
+
+Perfect for creating high-converting SaaS landing pages, product marketing sites, and company websites with:
+
+- **SEO Optimized** - Built-in SEO best practices, semantic HTML, and optimized meta tags to help you rank better
+- **Lightning Fast** - Static site generation delivers blazing-fast load times (90+ Lighthouse scores)
+- **Global Ready** - Full internationalization (i18n) support with automatic language detection powered by [VisitorAPI](https://visitorapi.com/)
+- **Developer Friendly** - Clean code structure, comprehensive documentation, and easy customization
+- **Production Ready** - Battle-tested with real SaaS companies, mobile-responsive, and accessibility compliant
+
+Whether you're launching a new SaaS product or refreshing your marketing site, Hugo Saasify Theme helps you build a professional web presence quickly and efficiently.
 
 ![Hugo Saasify Theme Screenshot](https://raw.githubusercontent.com/chaoming/hugo-saasify-theme/main/screenshots/screenshot1.png)
 
@@ -24,7 +36,7 @@ A modern and elegant Hugo theme specifically designed for SaaS websites. Built w
 - 🔧 Custom head content support for additional tracking scripts
 - 🎪 21 pre-built shortcodes for rapid page building
 - 📚 Documentation layout with automatic sidebar navigation
-- 🌍 Full multilingual (i18n) support with automatic language switcher
+- 🌍 Full multilingual (i18n) support with automatic language switcher (powered by [VisitorAPI](https://visitorapi.com/))
 
 ## Documentation
 
@@ -414,6 +426,21 @@ content/
     ├── _index.md
     └── blog/
 ```
+
+## Build Your Complete SaaS Solution
+
+Hugo Saasify Theme is perfect for your **marketing site**, but what about your actual SaaS application? Check out [**Fireact.dev**](https://fireact.dev/) - an open-source framework that complements this theme perfectly.
+
+[Fireact.dev](https://github.com/fireact-dev/main) is a production-ready SaaS application starter built with **React, Firebase, and Stripe**. It provides everything you need for the application side of your SaaS business:
+
+- **Stripe Integration** - Complete billing system with subscription management, payment processing, invoices, and customer portal
+- **User Management** - Built-in authentication, team collaboration, user invitations, and role-based access control (admin/user roles)
+- **Multi-tenancy** - Full support for multiple subscription accounts with isolated data and permissions
+- **Production Ready** - TypeScript, internationalization (i18n), Firebase Cloud Functions, and comprehensive documentation
+
+**Perfect Combination**: Use Hugo Saasify Theme for your public-facing marketing website (landing pages, blog, documentation) and Fireact.dev for your authenticated SaaS application. Together, they provide a complete solution for launching your SaaS product quickly.
+
+Learn more at [fireact.dev](https://fireact.dev/) or view the [GitHub repository](https://github.com/fireact-dev/main).
 
 ## License
 
