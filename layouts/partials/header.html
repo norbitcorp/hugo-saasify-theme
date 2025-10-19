@@ -100,7 +100,7 @@
                     <span class="block py-2 text-primary-600 font-bold">{{ .LanguageName }}</span>
                     {{ else }}
                     {{ $langURL := printf "/%s/" .Lang }}
-                    <a href="{{ $langURL }}" class="block py-2 text-gray-700 hover:text-primary-600">
+                    <a href="{{ $langURL }}" class="language-switch-link block py-2 text-gray-700 hover:text-primary-600" data-lang="{{ .Lang }}">
                         {{ .LanguageName }}
                     </a>
                     {{ end }}

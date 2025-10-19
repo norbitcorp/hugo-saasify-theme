@@ -7,6 +7,7 @@ Complete guide for implementing multilingual support in Hugo Saasify Theme.
 - [Overview](#overview)
 - [Quick Start](#quick-start)
 - [Configuration](#configuration)
+- [Language Preference Persistence](#language-preference-persistence)
 - [Translation Keys](#translation-keys)
 - [Content Organization](#content-organization)
 - [Date Formatting](#date-formatting)
@@ -17,6 +18,7 @@ Complete guide for implementing multilingual support in Hugo Saasify Theme.
 
 Hugo Saasify Theme provides full multilingual support with:
 - Automatic language switcher in the header
+- Persistent language preference (remembers user's choice)
 - 40+ translation keys for UI elements
 - Language-specific content directories
 - Language-specific menus and parameters
@@ -24,6 +26,15 @@ Hugo Saasify Theme provides full multilingual support with:
 - Translated blog sidebar, post navigation, and more
 
 ## Quick Start
+
+The theme comes with **three fully implemented language examples** in the demo site:
+- **English** (`en`) - Default language
+- **Chinese** (`zh-cn`) - Complete translation
+- **German** (`de`) - Complete translation
+
+You can use these as references when adding your own languages.
+
+### Basic Setup
 
 1. **Configure languages in `hugo.toml`:**
 
@@ -45,6 +56,8 @@ defaultContentLanguage = "en"
     weight = 2
     contentDir = "content/zh-cn"
 ```
+
+**Tip:** Check the demo site's `hugo.toml` for complete English, Chinese, and German configurations you can copy and adapt.
 
 2. **Copy translation files:**
 
@@ -88,6 +101,72 @@ content/
 The language switcher will automatically appear in the header!
 
 ## Configuration
+
+### Language Preference Persistence
+
+**New Feature:** The theme now automatically remembers the user's language preference using browser localStorage. This provides a seamless multilingual experience.
+
+#### How It Works
+
+1. **First Visit**: User sees the default language (no redirect)
+2. **User Selects Language**: When clicking a language in the switcher:
+   - Their preference is saved to localStorage
+   - They navigate to the selected language
+3. **Return Visits**: On subsequent page loads:
+   - The system checks for a saved preference
+   - If found, automatically redirects to their preferred language
+   - This happens once per session to avoid interfering with manual navigation
+
+#### User Experience Examples
+
+**Scenario 1: New User**
+```
+1. User lands on https://example.com/ (English, default)
+2. Clicks "简体中文" in language switcher
+3. Navigates to https://example.com/zh-cn/
+4. Preference saved: zh-cn
+5. Next visit: automatically redirects to Chinese version
+```
+
+**Scenario 2: Deep Links**
+```
+1. User has preference: zh-cn
+2. Clicks link to https://example.com/blog/my-post
+3. Auto-redirects to https://example.com/zh-cn/blog/my-post
+4. Original path preserved, just language changed
+```
+
+**Scenario 3: Manual Navigation**
+```
+1. User has preference: zh-cn (currently on Chinese site)
+2. Types https://example.com/en/contact directly in address bar
+3. Sees English contact page (no forced redirect)
+4. Can still use language switcher to change languages
+```
+
+#### Technical Details
+
+- **Storage**: Uses browser `localStorage` with key `hugo_preferred_language`
+- **Fallback**: Works gracefully without JavaScript (standard links still function)
+- **Privacy**: Stored locally in user's browser only
+- **Session Safety**: Uses `sessionStorage` flag to prevent redirect loops
+- **Progressive Enhancement**: Site works perfectly with JavaScript disabled
+
+#### Disabling the Feature
+
+If you want to disable language preference persistence:
+
+1. Remove the script include from `layouts/_default/baseof.html`:
+```html
+<!-- Remove or comment out these lines: -->
+{{ if hugo.IsMultilingual }}
+<script src="{{ "js/language-preference.js" | relURL }}"></script>
+{{ end }}
+```
+
+2. Or delete the file: `static/js/language-preference.js`
+
+The language switcher will still work; it just won't remember the user's choice.
 
 ### Basic Setup
 
@@ -341,7 +420,21 @@ The language switcher automatically appears when 2+ languages are configured.
 
 ## Adding a New Language
 
-Let's add French as an example:
+Let's add French as an example.
+
+### Quick Reference (For Experienced Users)
+
+If you're familiar with Hugo i18n, here's what you need:
+
+1. **Config:** `hugo.toml` - Add `languages.fr` section with `languageCode`, `languageName`, `title`, `weight`, `contentDir`
+2. **Translations:** `i18n/fr.toml` - Copy from `i18n/en.toml` and translate all keys
+3. **Content:** `content/fr/` - Create directory structure and translate content
+4. **Menus:** `languages.fr.menu.main` + 3 footer menus
+5. **Params:** `languages.fr.params` - **Must include**: `cta`, `footer` (with uppercase column titles), `header`, `blog`
+
+**Critical:** Don't forget the `footer` configuration - it's required for footer to display correctly!
+
+### Detailed Step-by-Step Guide
 
 ### 1. Add Language Configuration
 
@@ -414,15 +507,84 @@ content/fr/
   weight = 2
 ```
 
-### 5. Language-Specific Parameters (Optional)
+### 5. Language-Specific Parameters (Required)
+
+Configure language-specific parameters for your new language. **Important:** These parameters are required for proper navigation and UI display.
 
 ```toml
-[languages.fr.params.cta]
-  title = "Prêt à commencer?"
-  description = "Rejoignez les entreprises qui utilisent notre plateforme"
+# French language specific params
+[languages.fr.params]
+  # Global CTA Configuration
+  [languages.fr.params.cta]
+    enable = true
+    title = "Prêt à commencer?"
+    description = "Rejoignez les entreprises qui utilisent notre plateforme"
+    gradient_from = "#2563eb"
+    gradient_to = "#7c3aed"
+    gradient_angle = 30
+    [languages.fr.params.cta.primary_button]
+      text = "Commencer"
+      url = "/fr/get-started"
+    [languages.fr.params.cta.secondary_button]
+      text = "Démo"
+      url = "/fr/demo"
+
+  # Footer Configuration (IMPORTANT - Required for footer to display correctly)
+  [languages.fr.params.footer]
+    column_1_title = "FONCTIONNALITÉS"
+    column_2_title = "ENTREPRISE"
+    column_3_title = "LÉGAL"
+
+  # Header Configuration
+  [languages.fr.params.header]
+    [languages.fr.params.header.buttons]
+      [languages.fr.params.header.buttons.signIn]
+        text = "Connexion"
+        url = "/fr/signin"
+      [languages.fr.params.header.buttons.getStarted]
+        text = "Commencer"
+        url = "/fr/get-started"
+
+  # Blog configuration
+  [languages.fr.params.blog]
+    enable = true
+    title = "Derniers Articles"
+    subtitle = "Apprenez-en plus sur le développement web et les meilleures pratiques"
 ```
 
-That's it! The French version will now be available with the language switcher automatically showing all three languages.
+**Important Notes:**
+- **Footer Configuration:** The `footer` section is required. Without it, footer column titles may not display correctly in the new language.
+- **Use uppercase** for footer column titles to maintain consistency with other languages
+- **URL paths:** Include the language prefix (e.g., `/fr/`) in all button URLs
+- All parameters should mirror the structure used in other languages (check English or Chinese examples)
+
+### 6. Complete Checklist
+
+Use this checklist to ensure you've configured everything correctly:
+
+- [ ] **Language Config:** Added language configuration in `hugo.toml` with `languageCode`, `languageName`, `title`, `weight`, and `contentDir`
+- [ ] **Translation File:** Created `i18n/[lang].toml` with all UI translations (50+ keys)
+- [ ] **Content Directory:** Created `content/[lang]/` directory structure
+- [ ] **Homepage:** Created `content/[lang]/_index.md` with translated homepage content
+- [ ] **Navigation Menus:** Configured `languages.[lang].menu.main`, `footer_column_1`, `footer_column_2`, `footer_column_3`
+- [ ] **Language Params - CTA:** Added `languages.[lang].params.cta` configuration
+- [ ] **Language Params - Footer:** Added `languages.[lang].params.footer` with all three column titles (UPPERCASE)
+- [ ] **Language Params - Header:** Added `languages.[lang].params.header.buttons` configuration
+- [ ] **Language Params - Blog:** Added `languages.[lang].params.blog` configuration
+- [ ] **URL Prefixes:** All menu URLs include the language prefix (e.g., `/fr/features`)
+- [ ] **Test:** Verified language switcher appears in header with new language
+- [ ] **Test:** Verified homepage displays correctly in new language
+- [ ] **Test:** Verified top navigation menu shows translated items
+- [ ] **Test:** Verified footer navigation shows translated items
+- [ ] **Test:** Verified footer column titles display in new language
+
+### Common Mistakes to Avoid
+
+1. **Missing Footer Config:** Forgetting to add `languages.[lang].params.footer` will cause footer titles to not display
+2. **Inconsistent Capitalization:** Footer column titles should be UPPERCASE to match the theme's style
+3. **Missing URL Prefixes:** All language-specific URLs must include the language code (e.g., `/fr/`, not just `/`)
+4. **Incomplete Menus:** Ensure all three footer menus (`footer_column_1`, `footer_column_2`, `footer_column_3`) are configured
+5. **Missing i18n Keys:** Make sure all 50+ translation keys are present in your translation file
 
 ## Best Practices
 
@@ -438,8 +600,15 @@ That's it! The French version will now be available with the language switcher a
 
 - **Hugo i18n Documentation:** https://gohugo.io/content-management/multilingual/
 - **Theme i18n Files:** `themes/hugo-saasify-theme/i18n/`
-- **Example Configuration:** See demo site's `hugo.toml`
-- **Chinese Example:** `themes/hugo-saasify-theme/docs/zh-cn.toml.example`
+- **Demo Site Configuration:** See complete trilingual setup in demo site's `hugo.toml`
+- **Translation Examples:**
+  - English: `i18n/en.toml` (reference for all keys)
+  - Chinese: `i18n/zh-cn.toml` (complete translation)
+  - German: `i18n/de.toml` (complete translation)
+- **Content Structure Examples:**
+  - `content/` (English)
+  - `content/zh-cn/` (Chinese)
+  - `content/de/` (German)
 
 ## Support
 

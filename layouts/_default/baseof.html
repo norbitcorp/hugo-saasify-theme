@@ -96,6 +96,11 @@
     <!-- Footer -->
     {{ partial "footer" . }}
 
+    <!-- Language Preference Script -->
+    {{ if hugo.IsMultilingual }}
+    <script src="{{ "js/language-preference.js" | relURL }}"></script>
+    {{ end }}
+
     <!-- Mobile Menu Script -->
     <script>
         const mobileMenuButton = document.getElementById('mobile-menu-button');
