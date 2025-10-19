@@ -74,7 +74,7 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div class="nav-content md:hidden w-full fixed left-0 right-0 top-20 bg-white border-t border-gray-100 shadow-lg">
+        <div class="nav-content md:hidden w-full fixed left-0 right-0 top-20 bg-white border-t border-gray-100 shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
             <div class="w-full px-6 py-4">
                 {{ range .Site.Menus.main }}
                     {{ if .Params.has_submenu }}
@@ -136,9 +136,25 @@
         }
         .nav-content {
             display: none;
+            -webkit-overflow-scrolling: touch;
         }
         .nav-toggle:checked ~ header .nav-content {
             display: block;
         }
     </style>
+
+    <script>
+        (function() {
+            var navToggle = document.getElementById('nav-toggle');
+            if (navToggle) {
+                navToggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        })();
+    </script>
 </div>
