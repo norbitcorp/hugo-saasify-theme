@@ -33,12 +33,6 @@
      */
     function checkAndRedirect() {
         try {
-            // Don't redirect if we already did this session
-            if (sessionStorage.getItem(SESSION_KEY)) {
-                console.log('Language preference: Already redirected this session, skipping');
-                return;
-            }
-
             const preferredLang = getStoredLanguage();
             const currentLang = getCurrentLanguage();
 
@@ -48,10 +42,15 @@
                 visitorApiConfigured: !!VISITOR_API_PID
             });
 
+            // If user has a stored preference and it matches current language, we're good
+            if (preferredLang && preferredLang === currentLang) {
+                console.log('Language preference: Already on preferred language:', currentLang);
+                return;
+            }
+
             // If user has a stored preference, use it
             if (preferredLang && preferredLang !== currentLang && isValidLanguage(preferredLang)) {
                 console.log('Language preference: Redirecting to stored preference:', preferredLang);
-                sessionStorage.setItem(SESSION_KEY, 'true');
                 redirectToLanguage(preferredLang);
                 return;
             }
@@ -124,8 +123,33 @@
 
         console.log('VisitorAPI: Detected languages:', languages);
 
+        // Get current language to check if already on preferred language
+        var currentLang = getCurrentLanguage();
+        console.log('VisitorAPI: Current language:', currentLang);
+
+        // Get all available Hugo language codes from the page
+        var availableHugoLangs = [];
+        var languageLinks = document.querySelectorAll('.language-switch-link');
+
+        for (var i = 0; i < languageLinks.length; i++) {
+            var hugoLang = languageLinks[i].getAttribute('data-lang');
+            if (hugoLang) {
+                availableHugoLangs.push(hugoLang.toLowerCase());
+            }
+        }
+
+        // Add current language to available languages if not already present
+        // This handles the case where default language (e.g., "en") might not have a visible switch link
+        if (currentLang && availableHugoLangs.indexOf(currentLang) === -1) {
+            availableHugoLangs.unshift(currentLang); // Add to beginning of array
+            console.log('VisitorAPI: Added current language to available languages:', currentLang);
+        }
+
+        console.log('VisitorAPI: Available Hugo languages:', availableHugoLangs);
+
         // Try to match visitor's language to available Hugo languages
         // Match using first 2 characters of language code (e.g., "en" matches "en", "zh" matches "zh-cn")
+        // IMPORTANT: Iterate through visitor's languages IN ORDER to respect preference
         var detectedLang = null;
 
         for (var i = 0; i < languages.length; i++) {
@@ -133,24 +157,23 @@
             // Get first 2 characters of the visitor's language code
             var langPrefix = visitorLang.substring(0, 2);
 
-            // Get all available language links to find matching Hugo language
-            var languageLinks = document.querySelectorAll('.language-switch-link');
+            console.log('VisitorAPI: Checking visitor language:', visitorLang, '(prefix: ' + langPrefix + ')');
 
-            for (var j = 0; j < languageLinks.length; j++) {
-                var hugoLang = languageLinks[j].getAttribute('data-lang');
-                if (hugoLang) {
-                    // Get first 2 characters of Hugo language code
-                    var hugoPrefix = hugoLang.substring(0, 2);
+            // Check if any available Hugo language matches this visitor language
+            for (var j = 0; j < availableHugoLangs.length; j++) {
+                var hugoLang = availableHugoLangs[j];
+                // Get first 2 characters of Hugo language code
+                var hugoPrefix = hugoLang.substring(0, 2);
 
-                    // Match based on first 2 characters
-                    if (langPrefix === hugoPrefix) {
-                        detectedLang = hugoLang;
-                        console.log('VisitorAPI: Matched language:', visitorLang, '(' + langPrefix + ') ->', hugoLang);
-                        break;
-                    }
+                // Match based on first 2 characters
+                if (langPrefix === hugoPrefix) {
+                    detectedLang = hugoLang;
+                    console.log('VisitorAPI: Matched language:', visitorLang, '(' + langPrefix + ') -> Hugo language:', hugoLang);
+                    break;
                 }
             }
 
+            // Break immediately when first match is found (respects visitor's language preference order)
             if (detectedLang) {
                 break;
             }
@@ -158,7 +181,6 @@
 
         // If we detected a valid language and it's different from current, redirect
         if (detectedLang) {
-            var currentLang = getCurrentLanguage();
             console.log('VisitorAPI: Detected lang:', detectedLang, 'Current lang:', currentLang);
 
             if (detectedLang !== currentLang) {
@@ -167,13 +189,12 @@
                 // Store the detected language as preference
                 setStoredLanguage(detectedLang);
 
-                // Mark session to prevent redirect loop
-                sessionStorage.setItem(SESSION_KEY, 'true');
-
                 // Redirect to detected language
                 redirectToLanguage(detectedLang);
             } else {
                 console.log('VisitorAPI: Already on detected language, no redirect needed');
+                // Store the preference even if we're already on the right language
+                setStoredLanguage(detectedLang);
             }
         } else {
             console.log('VisitorAPI: No matching Hugo language found for detected languages');
@@ -201,8 +222,7 @@
         if (lang) {
             try {
                 setStoredLanguage(lang);
-                // Clear session flag so future page loads can redirect
-                sessionStorage.removeItem(SESSION_KEY);
+                console.log('Language preference: Stored user preference:', lang);
             } catch (e) {
                 console.warn('Language preference: Could not save preference', e);
             }
