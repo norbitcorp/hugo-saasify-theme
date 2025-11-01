@@ -7,7 +7,7 @@
         </div>
 
         <div class="testimonials-container overflow-hidden">
-            <div class="testimonials-track{{ if ne (.Get "animate" | default "true") "false" }} animate{{ end }}">
+            <div class="testimonials-track{{ if ne (.Get "animate" | default "true") "false" }} animate{{ end }}"{{ if ne (.Get "animate" | default "true") "false" }} aria-hidden="false"{{ end }}>
                 {{ range .Page.Params.testimonials }}
                 <div class="testimonial-card">
                     <div class="flex items-center space-x-4 mb-6">
@@ -22,7 +22,7 @@
                 {{ end }}
                 {{ if ne (.Get "animate" | default "true") "false" }}
                     {{ range .Page.Params.testimonials }}
-                    <div class="testimonial-card">
+                    <div class="testimonial-card" aria-hidden="true">
                         <div class="flex items-center space-x-4 mb-6">
                             <img src="{{ .avatar | relURL }}" alt="{{ .name }}" class="w-12 h-12 rounded-full">
                             <div>
@@ -38,6 +38,73 @@
         </div>
     </div>
 </section>
+
+{{ if ne (.Get "animate" | default "true") "false" }}
+<script>
+(function() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTestimonialsScroll);
+    } else {
+        initTestimonialsScroll();
+    }
+    
+    function initTestimonialsScroll() {
+        const tracks = document.querySelectorAll('.testimonials-track.animate');
+        
+        tracks.forEach(track => {
+            // Remove CSS animation and use JS for smoother control
+            track.style.animation = 'none';
+            
+            const container = track.parentElement;
+            const isMobile = window.innerWidth <= 768;
+            const duration = isMobile ? 15000 : 40000; // Duration in ms
+            
+            let position = 0; // Current position in pixels
+            let isPaused = false;
+            let lastTime = performance.now();
+            
+            // Calculate the width of one set of testimonials (50% of track)
+            const trackWidth = track.scrollWidth;
+            const halfWidth = trackWidth / 2;
+            
+            // Speed in pixels per millisecond
+            const speed = halfWidth / duration;
+            
+            function animate(currentTime) {
+                if (!isPaused) {
+                    const delta = currentTime - lastTime;
+                    position += speed * delta;
+                    
+                    // Reset position seamlessly when we've moved one full set
+                    if (position >= halfWidth) {
+                        position = position - halfWidth;
+                    }
+                    
+                    track.style.transform = `translateX(-${position}px)`;
+                }
+                
+                lastTime = currentTime;
+                requestAnimationFrame(animate);
+            }
+            
+            // Start animation
+            requestAnimationFrame(animate);
+            
+            // Pause on hover
+            container.addEventListener('mouseenter', () => {
+                isPaused = true;
+            });
+            
+            container.addEventListener('mouseleave', () => {
+                isPaused = false;
+                lastTime = performance.now(); // Reset lastTime to avoid jump
+            });
+        });
+    }
+})();
+</script>
+{{ end }}
 
 <style>
 .testimonials-container {
@@ -55,10 +122,12 @@
 .testimonials-track {
     display: flex;
     gap: 2rem;
+    width: fit-content;
 }
 
 .testimonials-track.animate {
     animation: 40s testimonials-scroll infinite linear;
+    will-change: transform;
 }
 
 .testimonial-card {
@@ -75,11 +144,11 @@
 }
 
 @keyframes testimonials-scroll {
-    from {
+    0% {
         transform: translateX(0);
     }
-    to {
-        transform: translateX(calc(-100% / 2));
+    100% {
+        transform: translateX(-50%);
     }
 }
 
@@ -91,6 +160,7 @@
 @media (max-width: 768px) {
     .testimonials-track.animate {
         animation: 15s testimonials-scroll infinite linear;
+        will-change: transform;
     }
 }
 </style>
