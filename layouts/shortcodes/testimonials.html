@@ -7,7 +7,7 @@
         </div>
 
         <div class="testimonials-container overflow-hidden">
-            <div class="testimonials-track{{ if ne (.Get "animate" | default "true") "false" }} animate{{ end }}"{{ if ne (.Get "animate" | default "true") "false" }} aria-hidden="false"{{ end }}>
+            <div class="testimonials-track{{ if ne (.Get "animate" | default "true") "false" }} animate{{ end }}">
                 {{ range .Page.Params.testimonials }}
                 <div class="testimonial-card">
                     <div class="flex items-center space-x-4 mb-6">
@@ -57,19 +57,27 @@
             track.style.animation = 'none';
             
             const container = track.parentElement;
-            const isMobile = window.innerWidth <= 768;
-            const duration = isMobile ? 15000 : 40000; // Duration in ms
-            
-            let position = 0; // Current position in pixels
-            let isPaused = false;
-            let lastTime = performance.now();
             
             // Calculate the width of one set of testimonials (50% of track)
             const trackWidth = track.scrollWidth;
             const halfWidth = trackWidth / 2;
             
-            // Speed in pixels per millisecond
-            const speed = halfWidth / duration;
+            // Ensure track has valid dimensions before animating
+            if (trackWidth === 0 || halfWidth === 0) {
+                return;
+            }
+            
+            let position = 0; // Current position in pixels
+            let isPaused = false;
+            let lastTime = performance.now();
+            
+            // Check for mobile and set duration - responsive to window resize
+            function getDuration() {
+                return window.innerWidth <= 768 ? 15000 : 40000;
+            }
+            
+            // Speed in pixels per millisecond (recalculated on resize)
+            let speed = halfWidth / getDuration();
             
             function animate(currentTime) {
                 if (!isPaused) {
@@ -99,6 +107,15 @@
             container.addEventListener('mouseleave', () => {
                 isPaused = false;
                 lastTime = performance.now(); // Reset lastTime to avoid jump
+            });
+            
+            // Handle window resize to adjust speed
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    speed = halfWidth / getDuration();
+                }, 250); // Debounce resize events
             });
         });
     }
