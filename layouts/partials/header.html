@@ -6,7 +6,7 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <nav class="flex items-center justify-between h-20">
                 <!-- Logo and Title -->
-                <a href="{{ .Site.BaseURL }}" class="flex items-center space-x-4">
+                <a href="{{ "/" | relLangURL }}" class="flex items-center space-x-4">
                     {{ with $headerConfig.logo }}
                         <img src="{{ .src | relURL }}" alt="{{ $.Site.Title }}" class="{{ with .class }}{{ . }}{{ else }}h-12{{ end }}">
                     {{ else }}
@@ -40,6 +40,9 @@
                         <a href="{{ .URL }}" class="{{ with $headerConfig.menu.linkClass }}{{ . }}{{ else }}text-base text-gray-900 hover:text-primary-600 font-bold transition duration-200{{ end }}">{{ .Name }}</a>
                         {{ end }}
                     {{ end }}
+
+                    <!-- Language Switcher -->
+                    {{ partial "language-switcher" . }}
                 </div>
 
                 <!-- CTA Buttons -->
@@ -71,7 +74,7 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div class="nav-content md:hidden w-full fixed left-0 right-0 top-20 bg-white border-t border-gray-100 shadow-lg">
+        <div class="nav-content md:hidden w-full fixed left-0 right-0 top-20 bg-white border-t border-gray-100 shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
             <div class="w-full px-6 py-4">
                 {{ range .Site.Menus.main }}
                     {{ if .Params.has_submenu }}
@@ -87,7 +90,24 @@
                     <a href="{{ .URL }}" class="{{ with $headerConfig.menu.mobileLinkClass }}{{ . }}{{ else }}block text-xl text-gray-900 hover:text-primary-600 font-bold transition duration-200 py-2{{ end }}">{{ .Name }}</a>
                     {{ end }}
                 {{ end }}
-                
+
+                <!-- Mobile Language Switcher -->
+                {{ if hugo.IsMultilingual }}
+                <div class="py-4 border-t border-gray-200 mt-4">
+                    <div class="text-lg text-gray-600 font-semibold mb-2">{{ i18n "language" }}</div>
+                    {{ range .Site.Languages }}
+                    {{ if eq $.Site.Language.Lang .Lang }}
+                    <span class="block py-2 text-primary-600 font-bold">{{ .LanguageName }}</span>
+                    {{ else }}
+                    {{ $langURL := printf "/%s/" .Lang }}
+                    <a href="{{ $langURL }}" class="language-switch-link block py-2 text-gray-700 hover:text-primary-600" data-lang="{{ .Lang }}">
+                        {{ .LanguageName }}
+                    </a>
+                    {{ end }}
+                    {{ end }}
+                </div>
+                {{ end }}
+
                 {{ if not $headerConfig.hideButtons }}
                 <div class="pt-4 space-y-4">
                     {{ with $headerConfig.buttons.signIn }}
@@ -116,9 +136,25 @@
         }
         .nav-content {
             display: none;
+            -webkit-overflow-scrolling: touch;
         }
         .nav-toggle:checked ~ header .nav-content {
             display: block;
         }
     </style>
+
+    <script>
+        (function() {
+            var navToggle = document.getElementById('nav-toggle');
+            if (navToggle) {
+                navToggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        })();
+    </script>
 </div>

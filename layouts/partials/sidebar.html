@@ -1,7 +1,9 @@
 <div class="space-y-8">
     <!-- Subscribe Form -->
     {{ if .Site.Params.blog.sidebar.subscribe.enable }}
-        {{ $params := dict 
+        {{ $params := dict
+            "Site" .Site
+            "Language" .Site.Language
             "title" .Site.Params.blog.sidebar.subscribe.title
             "description" .Site.Params.blog.sidebar.subscribe.description
             "action" .Site.Params.blog.sidebar.subscribe.action
@@ -17,7 +19,7 @@
     <!-- Recent Articles -->
     {{ if .Site.Params.blog.sidebar.recent.enable }}
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-bold mb-4">{{ .Site.Params.blog.sidebar.recent.title | default "Recent Articles" }}</h3>
+            <h3 class="text-lg font-bold mb-4">{{ .Site.Params.blog.sidebar.recent.title | default (i18n "recentArticles" .) }}</h3>
             <div class="space-y-4">
                 {{ $recentCount := .Site.Params.blog.sidebar.recent.count | default 5 }}
                 {{ range first $recentCount (where .Site.RegularPages "Type" "insights") }}
@@ -54,7 +56,7 @@
     <!-- Categories -->
     {{ if .Site.Params.blog.sidebar.categories.enable }}
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-bold mb-4">{{ .Site.Params.blog.sidebar.categories.title | default "Categories" }}</h3>
+            <h3 class="text-lg font-bold mb-4">{{ .Site.Params.blog.sidebar.categories.title | default (i18n "categories" .) }}</h3>
             <div class="flex flex-wrap gap-2">
                 {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
                     <a href="{{ "/categories/" | relLangURL }}{{ $name | urlize }}"
@@ -70,7 +72,7 @@
     <!-- Tags Cloud -->
     {{ if .Site.Params.blog.sidebar.tags.enable }}
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-bold mb-4">{{ .Site.Params.blog.sidebar.tags.title | default "Popular Tags" }}</h3>
+            <h3 class="text-lg font-bold mb-4">{{ .Site.Params.blog.sidebar.tags.title | default (i18n "popularTags" .) }}</h3>
             <div class="flex flex-wrap gap-2">
                 {{ $tagCount := .Site.Params.blog.sidebar.tags.count | default 20 }}
                 {{ range first $tagCount .Site.Taxonomies.tags.ByCount }}

@@ -1,13 +1,9 @@
 baseURL = "https://saasify-demo.chaoming.li/"
-languageCode = "en-us"
 title = "Saasify"
+defaultContentLanguage = "en"
 
 # Theme Config
 theme = "../.."
-
-# Enable syntax highlighting
-pygmentsCodeFences = true
-pygmentsUseClasses = true
 
 # Enable emoji support
 enableEmoji = true
@@ -50,10 +46,17 @@ paginatePath = "page"
   [params.social]
     linkedin = "https://linkedin.com/in/chaomingli"
     twitter = "https://twitter.com/lichaoming"
+    bluesky = "https://bsky.app/profile/bsky.app"
     youtube = "https://youtube.com/@chaomingli"
     facebook = "https://facebook.com/lichaoming"
     instagram = "https://instagram.com/lichaoming"
     github = "https://github.com/chaoming"
+    telegram = "https://t.me/yourchannel"
+    discord = "https://discord.gg/yourinvite"
+    slack = "https://yourteam.slack.com"
+    medium = "https://medium.com/@yourhandle"
+    dribbble = "https://dribbble.com/yourprofile"
+    behance = "https://behance.net/yourprofile"
   
   # Footer Configuration
   [params.footer]
@@ -166,6 +169,25 @@ paginatePath = "page"
     endLevel = 3
     ordered = false
     startLevel = 2
+
+# Multilingual Configuration
+# Uncomment the sections below to enable multilingual support
+# See docs/CONFIGURATION.md for detailed instructions
+
+# [languages]
+#   [languages.en]
+#     languageCode = "en-us"
+#     languageName = "English"
+#     title = "Saasify"
+#     weight = 1
+#     contentDir = "content"
+#
+#   [languages.zh-cn]
+#     languageCode = "zh-cn"
+#     languageName = "简体中文"
+#     title = "Saasify"
+#     weight = 2
+#     contentDir = "content/zh-cn"
 
 # Navigation Menu
 [menu]
