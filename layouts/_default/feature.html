@@ -37,11 +37,19 @@
             <div class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none md:grid-cols-2 xl:grid-cols-4">
                 {{ range .Params.features }}
                 <div class="flex flex-col bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-8">
+                    <!-- Title and Image Side by Side -->
+                    <div class="flex items-center gap-4">
+                        {{ with .image }}
+                        <img src="{{ . }}" alt="" class="h-12 w-12 object-contain rounded-md" loading="lazy">
+                        {{ end }}
                     <dt class="text-lg font-semibold leading-7 text-gray-900">
                         {{ .title }}
                     </dt>
-                    <dd class="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                        <p class="flex-auto">{{ .description }}</p>
+                    </div>
+
+                    <!-- Description Below -->
+                    <dd class="mt-4 text-base leading-7 text-gray-600">
+                        <p>{{ .description }}</p>
                     </dd>
                 </div>
                 {{ end }}
