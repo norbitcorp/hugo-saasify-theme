@@ -1,5 +1,10 @@
 <div class="value-card bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
     <div class="mb-4">
+        {{ $image := .Get "image" }}
+        {{ if $image }}
+        <img class="w-12 h-12 text-blue-600" src="/images/{{ $image }}" alt="">
+        {{ end }}
+
         {{ $icon := .Get "icon" }}
         {{ if eq $icon "lightbulb" }}
         <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
